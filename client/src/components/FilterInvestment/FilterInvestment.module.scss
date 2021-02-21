@@ -1,0 +1,14 @@
+.container {
+    width: 350px;
+    &__firstRow {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid #ccc;
+        margin-bottom: 16px;
+    }
+
+    &__formControl {
+        
+    }
+}

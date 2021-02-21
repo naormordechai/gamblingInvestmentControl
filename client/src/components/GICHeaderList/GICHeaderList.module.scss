@@ -1,0 +1,23 @@
+.headerList {
+    margin-bottom: 12px;
+    max-width: 980px;
+    width: 90%;
+    display: flex;
+    align-items: center;
+    &__text { padding: 12px 0; }
+    
+    &__text,
+    &__btn {
+        color: #fff !important;
+        opacity: .54;
+    }
+
+    &__actionBtn {
+        // background;
+        background-color:#585858 !important;
+        color: #fff !important;
+        align-self: center;
+        margin-left: auto !important;
+    }   
+    
+}

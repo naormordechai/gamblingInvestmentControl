@@ -1,0 +1,21 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* GLOBALS */
+
+.padding-md {
+  padding: 16px;
+}
+
+.profit {
+  background-color:#546F54;
+}
+
+.loss {
+  background-color:#bd6156;
+}

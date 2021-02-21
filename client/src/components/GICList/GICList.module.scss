@@ -1,0 +1,16 @@
+.list {
+    height: calc(100vh - 200px);
+    width: 90%;
+    max-width: 980px;
+    background-color: #585858;
+    border-radius: 3px;
+    box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12);
+    color: #fff;
+    & > div:first-child {
+        display: grid;
+        grid-template-columns: repeat(2, 2fr) repeat(2, 1fr);
+        height: 50px;
+        align-items: center;
+        padding-left: 16px;
+    }
+}

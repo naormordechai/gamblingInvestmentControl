@@ -1,0 +1,22 @@
+.row {
+    display: grid;
+    grid-template-columns: repeat(2, 2fr) repeat(2, 1fr);
+    height: 42px;
+    align-items: center;
+    // border-bottom: 1px solid rgba(255,255,255,.5);
+    color: #fff;
+    padding-left: 16px;
+    margin-bottom: 2px;
+
+
+
+    &__icons {
+        display: flex;
+        justify-content: flex-end;
+        &__btnIcon {
+            color: rgba(255,255,255,.54) !important;
+            margin-right: 16px !important;
+        }
+    }
+}
+

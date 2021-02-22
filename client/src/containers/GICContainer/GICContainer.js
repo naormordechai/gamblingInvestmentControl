@@ -17,6 +17,7 @@ export const GICContainer = (props) => {
   const [isOpenFilterDialog, setIsOpenFilterDialog] = useState(false);
   const [selectedInvestment, setSelectedInvestment] = useState(null);
   const criteria = useSelector((state) => state.investmentReducer.criteria);
+  const error = useSelector((state) => state.investmentReducer.error);
   const investments = useSelector(
     (state) => state.investmentReducer.investments
   );
@@ -99,29 +100,31 @@ export const GICContainer = (props) => {
   return (
     <section className={styles.container}>
       {isLoading && <Loader />}
-      {investments.length > 0 && (
-        <>
-          <GICHeaderList
-            title="Gambling investment control list"
-            openAddDialog={openAddEditDialogHandler}
-            openFilterDialog={openFilterDialog}
+      {error ? error.message : <>
+        {investments.length > 0 && (
+          <>
+            <GICHeaderList
+              title="Gambling investment control list"
+              openAddDialog={openAddEditDialogHandler}
+              openFilterDialog={openFilterDialog}
+            />
+            <GICList
+              onOpenEditDialog={openAddEditDialogHandler}
+              criteria={criteria}
+              onDeleteInestment={deleteInvestmentHandler}
+              fetchMoreData={fetchMoreData}
+              investments={investments}
+            />
+          </>
+        )}
+        {isFinished && investments.length === 0 && (
+          <EmptyTemplate
+            title="No investments yet"
+            btnText="click here to add the first one"
+            onClicked={openAddEditDialogHandler}
           />
-          <GICList
-            onOpenEditDialog={openAddEditDialogHandler}
-            criteria={criteria}
-            onDeleteInestment={deleteInvestmentHandler}
-            fetchMoreData={fetchMoreData}
-            investments={investments}
-          />
-        </>
-      )}
-      {isFinished && investments.length === 0 && (
-        <EmptyTemplate
-          title="No investments yet"
-          btnText="click here to add the first one"
-          onClicked={openAddEditDialogHandler}
-        />
-      )}
+        )}
+      </>}
       <DialogTransition
         open={isOpenAddDialog || isOpenFilterDialog}
         className="padding-md"

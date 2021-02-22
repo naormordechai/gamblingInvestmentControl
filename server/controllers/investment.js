@@ -5,20 +5,15 @@ exports.getInvestmentsByUser = async (req, res, next) => {
   try {
     const criteria = req.body;
     const userData = await User.findOne({ _id: req.userId })
+      // TODO: Need to filter investments by status.
       .slice('investments', [criteria.skip, criteria.limit])
-      .exec()
-
+      .exec();
 
     if (!userData) {
       const erorr = new Error('User not founded.');
       error.statusCode = 404;
       throw erorr;
     }
-    // if (criteria.filterBy?.status && criteria.filterBy?.status !== 'All') {
-    //   userData.investments = userData.investments.filter(
-    //     (investment) => investment.status === criteria.filterBy.status
-    //   );
-    // }
     res.status(200).json({ message: 'Get investments', result: userData.investments });
   } catch (err) {
     if (!err.statusCode) {

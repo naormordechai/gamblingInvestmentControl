@@ -58,6 +58,7 @@ export const loadInvestments = (criteria) => async (dispatch) => {
             dispatch(finsiehdLoadInvestmentSucess(data.result))
         }
     } catch (err) {
+        console.log(err.message);
         dispatch(requestApiFailed(err))
     }
 }

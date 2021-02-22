@@ -27,7 +27,8 @@ const reducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         isFinished: true,
-        investments:  state.criteria.skip === 0 ? action.payload : state.investments.concat(action.payload), // This condition because of filter does not wnat to concat initially
+        error: null,
+        investments: state.criteria.skip === 0 ? action.payload : state.investments.concat(action.payload), // This condition because of filter does not wnat to concat initially
       };
     case actionTypes.UPDATE_CRITERIA:
       return {

@@ -44,6 +44,7 @@ const reducer = (state = initialState, action) => {
       };
     case actionTypes.ADDED_INVESTMENT_SUCCESS:
     case actionTypes.DELETED_INVESTMENT_SUCCESS:
+      debugger;
       return {
         ...state,
         investments: action.payload,

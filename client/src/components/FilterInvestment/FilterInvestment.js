@@ -5,6 +5,7 @@ import {
   MenuItem,
   Select,
   TextField,
+  InputAdornment
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 
@@ -18,6 +19,8 @@ import DateFnsUtils from '@date-io/date-fns';
 const FORM_FILTER = {
   date: new Date().toISOString(),
   status: 'Profit',
+  minPrice: 0,
+  maxPrice: 100
 };
 
 export const FilterInvestment = (props) => {
@@ -35,7 +38,9 @@ export const FilterInvestment = (props) => {
   };
 
   const onChangeHandler = (event) => {
-    const { name, value } = event.target;
+    const { name } = event.target;
+    let { value } = event.target;
+    value = name === 'minPrice' || name === 'maxPrice' ? +value : value;
     setForm((prevForm) => ({ ...prevForm, [name]: value }));
   };
 
@@ -78,6 +83,31 @@ export const FilterInvestment = (props) => {
           <em>Loss</em>
         </MenuItem>
       </Select>
+
+      <TextField
+        onChange={onChangeHandler}
+        type="number"
+        variant="filled"
+        placeholder="min price"
+        name="minPrice"
+        value={form.minPrice}
+        InputProps={{
+          startAdornment: <InputAdornment position="start">&#8362;</InputAdornment>,
+        }}
+        classes={{ root: styles.addEdit__inputs__input }} />
+
+      <TextField
+        onChange={onChangeHandler}
+        type="number"
+        variant="filled"
+        placeholder="max price"
+        name="maxPrice"
+        value={form.maxPrice}
+        InputProps={{
+          startAdornment: <InputAdornment position="start">&#8362;</InputAdornment>,
+        }}
+        classes={{ root: styles.addEdit__inputs__input }} />
+
       <Button
         classes={{ root: styles.addEdit__inputs__btn }}
         onClick={() => props.onFilterHandler(form)}

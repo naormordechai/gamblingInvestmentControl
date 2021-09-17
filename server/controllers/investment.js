@@ -1,20 +1,55 @@
 const user = require('../models/user');
 const User = require('../models/user');
+const moment = require('moment');
+
+const mongoose = require('mongoose');
 
 exports.getInvestmentsByUser = async (req, res, next) => {
   try {
     const criteria = req.body;
-    const userData = await User.findOne({ _id: req.userId })
-      // TODO: Need to filter investments by status.
-      .slice('investments', [criteria.skip, criteria.limit])
-      .exec();
+    const filters = [];
+    console.log(criteria);
+    if (criteria.filterBy && criteria.filterBy.status && criteria.filterBy.status !== 'All') {
+      filters.push({ $eq: ['$$invesment.status', criteria.filterBy.status] })
+    }
+    if (criteria.filterBy && criteria.filterBy.minPrice) {
+      filters.push({ $gt: ['$$invesment.sum', +criteria.filterBy.minPrice] });
+    }
+    if (criteria.filterBy && criteria.filterBy.maxPrice) {
+      filters.push({ $lt: ['$$invesment.sum', +criteria.filterBy.maxPrice] });
+    }
+
+    const isStatusAll = !criteria.status || criteria.status === 'All';
+    const [userData] = await User.aggregate([
+      { $match: { _id: mongoose.Types.ObjectId(req.userId) } },
+      {
+        $project: {
+          investments: {
+            $slice: [
+              {
+                $filter: {
+                  input: '$investments',
+                  as: 'invesment',
+                  cond: { $and: filters },
+                },
+              },
+              criteria.skip,
+              criteria.limit,
+            ],
+          },
+        },
+      },
+    ]);
+
 
     if (!userData) {
-      const erorr = new Error('User not founded.');
+      const error = new Error('User not founded.');
       error.statusCode = 404;
-      throw erorr;
+      throw error;
     }
-    res.status(200).json({ message: 'Get investments', result: userData.investments });
+    res
+      .status(200)
+      .json({ message: 'Get investments', result: userData.investments });
   } catch (err) {
     if (!err.statusCode) {
       err.statusCode = 500;
@@ -59,7 +94,7 @@ exports.deleteInvestment = async (req, res, next) => {
     await user.save();
     res.status(200).json({
       message: 'Investment deleted',
-      result: user.investments.slice(0, 20),
+      result: user.investments.slice(0, 20)
     });
   } catch (err) {
     if (!err.statusCode) {

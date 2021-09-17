@@ -84,14 +84,13 @@ export const GICContainer = (props) => {
     setIsOpenFilterDialog(false);
   };
 
-  const onFilterHandler = (data) => {
-    console.log(data);
+  const onFilterHandler = (filter) => {
     const criteria = {
       skip: 0,
       limit: 20,
       hasMore: true,
       isAddedOrDeleted: false,
-      filterBy: { ...data },
+      filterBy: { ...filter },
     };
     setIsOpenFilterDialog(false);
     updateCriteria(criteria);
